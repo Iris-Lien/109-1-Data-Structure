@@ -14,38 +14,42 @@ struct Queue
 
 int enqueue(struct Queue *queue, int data)
 {
-    Node *tmp;  //make a new node
-    tmp = malloc(sizeof(Node));
-    tmp->data = data;   //give the data of the new node
-    tmp->next = NULL
-    if(queue->bot == NULL)  //if queue is empty
+    if(queue->bot->next == NULL)  //if queue is empty
     {
-        queue->top = queue->bot = tmp;
         return -1;
+    }
+    queue->bot->next->data = data;
+    queue->bot->next->next = NULL;
+    if(queue->bot == NULL)
+    {
+        queue->top = queue->bot->next;
     }
     else
     {
-        queue->bot++;
-        queue->bot->next = tmp;
-        queue->bot = tmp;
+        queue->bot->next = queue->bot;
     }
+    queue->bot = queue->bot->next;
     return 1;
 }
 
 int *dequeue(struct Queue *queue)
 {
-    Node *tmp;
+    int tmp;
     if(queue->top == NULL)  //check queue is no new node
     {
         return NULL;
     }
     else
     {
-        queue->top++;
-        tmp = queue->top;
+        queue->top->next = queue->top;
         queue->top = queue->top->next;
-        free(tmp);
-        return  &queue->top->data;
+        if(queue->top == NULL)
+        {
+            queue->bot = NULL;
+        }
+        tmp = queue->top->data;
+        free(queue->top);
+        return  tmp;
     }
 }
 
@@ -53,7 +57,7 @@ int main()
 {
     int data, *temp;
     char command[50];
-    Queue queue;
+    struct Queue queue;
     queue.top = NULL;
     queue.bot = NULL;
     while(1)
