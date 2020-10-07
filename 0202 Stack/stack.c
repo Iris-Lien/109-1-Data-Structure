@@ -24,14 +24,15 @@ int push(struct Stack *stack, int data)
 
 int *pop(struct Stack *stack)
 {
-    int *item;
-    if(stack->top == 0) // Checking Array is empty or not.
+    if(stack->top == 0) // Checking  is empty or not.
     {
         return NULL;
     }
-    item = &stack->data[stack->top] ;
-    stack->top -= 1; //	top = top - 1
-    return item ;
+    else
+    {
+        stack->top -= 1; //	top = top - 1
+        return &stack->data[stack->top] ;
+    }
 }
 
 int main()
