@@ -15,20 +15,22 @@ int enqueue(struct Queue *queue, int data)
         return -1;
     else
     {
-        queue->data[queue->top] = data;
+      queue->bot++;
+      queue->data[queue->top] = data;
     }
     return 1;
 }
 
 int *dequeue(struct Queue *queue)
 {
-    if (queue->top == 0) /*If queue is empty*/
+    if (queue->top == queue->bot) /*If queue is empty*/
     {
-        return NULL;
+      return NULL;
     }
     else
     {
-        return  &queue->data[queue->top];
+      queue->top++;
+      return  &queue->data[queue->top];
     }
 }
 
