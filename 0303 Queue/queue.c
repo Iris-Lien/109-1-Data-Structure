@@ -28,10 +28,23 @@ int enqueue(struct Queue *queue, int data)
         queue->bot->next = tmp;
         queue->bot = tmp;
     }
+    return 1;
 }
 
 int *dequeue(struct Queue *queue)
 {
+    Node *tmp;
+    if(queue->top == NULL)  //check queue is no new node
+    {
+        return NULL;
+    }
+    else
+    {
+        tmp = queue->top;
+        queue->top = queue->top->next;
+        free(tmp);
+        return  &queue->top->data;
+    }
 }
 
 int main()
