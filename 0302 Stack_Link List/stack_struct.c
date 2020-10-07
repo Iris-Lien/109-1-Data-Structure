@@ -14,35 +14,36 @@ struct Stack
 
 int push(struct Stack *stack, int data)
 {
-    Node *tmp;
-    tmp = malloc(sizeof(Node));
-    if(tmp == NULL)
+    //Node *tmp;
+    //tmp = malloc(sizeof(Node));
+    if(stack->head == NULL)
     {
         return -1;
     }
     else
     {
-        tmp->data = data;   //make a new node
-        tmp->next = stack->top;
-        stack->top = tmp;   //tmp is top now
+        stack->head->data = data;   //make a new node
+        stack->head->next = stack->top;
+        stack->top = stack->head;   //tmp is top now
         return 1;
     }
 }
 
 int *pop(struct Stack *stack)
 {
-    Node *tmp;
-    if(stack->top == NULL)  //check is empty or not
+    //Node *tmp;
+    int tmp;
+    if(stack->head == NULL)  //check is empty or not
     {
         return NULL;
     }
     else
     {
-        tmp = stack->top;
-        stack->head = tmp->data;
+        stack->head = stack->top;
         stack->top = stack->top->next;
-        free(tmp);  //delete tmp
-        return &stack->head;
+        tmp = stack->head->data;
+        free(stack->head);
+        return &tmp;
     }
 }
 
