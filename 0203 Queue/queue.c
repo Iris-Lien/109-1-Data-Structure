@@ -15,7 +15,6 @@ int enqueue(struct Queue *queue, int data)
         return -1;
     else
     {
-        queue->top = queue->top + 1;
         queue->data[queue->top] = data;
     }
     return 1;
@@ -25,13 +24,11 @@ int *dequeue(struct Queue *queue)
 {
     if (queue->top == 0) /*If queue is empty*/
     {
-        printf("Queue Underflow \n");
         return NULL;
     }
     else
     {
         return  &queue->data[queue->top];
-        queue->top = queue->top + 1;
     }
 }
 
