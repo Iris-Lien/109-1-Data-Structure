@@ -25,6 +25,7 @@ int enqueue(struct Queue *queue, int data)
     }
     else
     {
+        queue->bot++;
         queue->bot->next = tmp;
         queue->bot = tmp;
     }
@@ -40,6 +41,7 @@ int *dequeue(struct Queue *queue)
     }
     else
     {
+        queue->top++;
         tmp = queue->top;
         queue->top = queue->top->next;
         free(tmp);
