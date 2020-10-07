@@ -42,7 +42,7 @@ int *pop(struct Stack *stack)
         stack->head = tmp->data;
         stack->top = stack->top->next;
         free(tmp);  //delete tmp
-        return stack->head;
+        return &stack->head;
     }
 }
 
