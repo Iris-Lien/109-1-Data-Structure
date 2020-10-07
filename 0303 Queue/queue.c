@@ -1,47 +1,46 @@
 #include<stdio.h>
 #include<string.h>
 
-#define SIZE 100
+struct Node
+{
+    int data;
+    struct Node *next;
+};
 
 struct Queue
 {
-    int data[SIZE];
-    int top, bot;
+    struct Node *top, *bot;
 };
 
 int enqueue(struct Queue *queue, int data)
 {
-    if (queue->top == queue->data[99])/*If queue is full */
+    Node *tmp;  //make a new node
+    tmp = malloc(sizeof(Node));
+    tmp->data = data;   //give the data of the new node
+    tmp->next = NULL
+    if(queue->bot == NULL)  //if queue is empty
+    {
+        queue->top = queue->bot = tmp;
         return -1;
+    }
     else
     {
-        queue->top = queue->top + 1;
-        queue->data[queue->top] = data;
+        queue->bot->next = tmp;
+        queue->bot = tmp;
     }
-    return 1;
 }
 
 int *dequeue(struct Queue *queue)
 {
-    if (queue->top == 0) /*If queue is empty*/
-    {
-        printf("Queue Underflow \n");
-        return NULL;
-    }
-    else
-    {
-        return  &queue->data[queue->top];
-        queue->top = queue->top + 1;
-    }
 }
 
 int main()
 {
     int data, *temp;
     char command[50];
-    struct Queue queue;
-    queue.top = 0;
-    queue.bot = 0;
+    Queue queue;
+    queue.top = NULL;
+    queue.bot = NULL;
     while(1)
     {
         scanf("%s", command);
@@ -55,7 +54,7 @@ int main()
             scanf("%d", &data);
             if(enqueue(&queue, data) == 1)
             {
-                printf("Successfully enqueue data %d into queue.\n",data);
+                printf("Successfully enqueue data %d into queue.\n");
             }
             else
             {
@@ -76,3 +75,5 @@ int main()
         }
     }
 }
+
+
