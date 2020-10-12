@@ -14,20 +14,12 @@ struct Queue
 
 int enqueue(struct Queue *queue, int data)
 {
-    if(queue->bot->next == NULL)  //if queue is empty
+    if(queue->bot->next == NULL)  //if queue is full
     {
         return -1;
     }
     queue->bot->next->data = data;
     queue->bot->next->next = NULL;
-    if(queue->bot == NULL)
-    {
-        queue->top = queue->bot->next;
-    }
-    else
-    {
-        queue->bot->next = queue->bot;
-    }
     queue->bot = queue->bot->next;
     return 1;
 }
@@ -35,7 +27,7 @@ int enqueue(struct Queue *queue, int data)
 int *dequeue(struct Queue *queue)
 {
     int tmp;
-    if(queue->top == NULL)  //check queue is no new node
+    if(queue->top == NULL)  //if queue is empty
     {
         return NULL;
     }
@@ -43,10 +35,6 @@ int *dequeue(struct Queue *queue)
     {
         queue->top->next = queue->top;
         queue->top = queue->top->next;
-        if(queue->top == NULL)
-        {
-            queue->bot = NULL;
-        }
         tmp = queue->top->data;
         free(queue->top);
         return  tmp;
