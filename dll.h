@@ -3,6 +3,7 @@
 
 typedef struct node
 {
+    int data;
     struct node * prev;
     struct node * next;
 } dllNode_t;
@@ -64,8 +65,23 @@ void DLL_add_tail(dllNode_t * new_node, dllNode_t *head) //(將新node加入到head n
 
 void DLL_delete(dllNode_t * node); //(從node所在的 Linked List 中刪除此點)
 {
-    node->prev->next = node->next;
-    node->next->prev = node->prev;
+    if(head != NULL)    //鏈結有節點可刪除
+    {
+        if(node == head)    //刪除第一個節點
+            head = head->next;
+        else if(node->next == NULL)   //刪除最後一個節點
+            node->next == NULL;
+        else if(node->next != NULL && node->prev != NULL)  //刪除中間節點
+        {
+            node->prev->next = node->next;
+            node->next->prev = node->prev;
+        }
+    }
+    else    //鏈結無節點可刪除
+        return;
+
+    //將節點歸還給記憶體
+    free(node);
 }
 
 void DLL_concate(dllNode_t *firstList, dllNode_t * secondList); //(將secondList 串在firstList之後)
@@ -94,6 +110,8 @@ void DLL_reverse(dllNode_t *List)   //將鏈結頭尾指標互換
 
 void DLL_add_two_numbers(dllNode_t *firstList, dllNode_t * secondList, dllNode_t *thirdList)
 {
+    dllNode_t *head;
+
     //相加前先反轉
     DLL_reverse(*firstList);
     DLL_reverse(*secondList);
@@ -101,28 +119,34 @@ void DLL_add_two_numbers(dllNode_t *firstList, dllNode_t * secondList, dllNode_t
 
     int digit_ten = 0;
 
-    while(firstList->node != NULL || secondList->node != NULL || digit_ten != 0)
+    while(firstList->head != NULL || secondList->head != NULL || digit_ten != 0)
     {
         int sum = 0;
 
-        if(firstList->node != NULL && secondList->node != NULL)
-            sum = firstList->node + firstList->node + digit_ten;    //兩鏈結相加並加上前一節點進位值
-        else if(firstList->node == NULL )
-            sum = secondList->node + digit_ten;
-        else if(secondList->node == NULL)
-            sum = secondList->node + digit_ten;
+        if(firstList->head != NULL && secondList->head != NULL)
+            sum = firstList->head + firstList->head + digit_ten;    //兩鏈結相加並加上前一節點進位值
+        else if(firstList->head == NULL )
+            sum = secondList->head + digit_ten;
+        else if(secondList->head == NULL)
+            sum = secondList->head + digit_ten;
         else
             sum = digit_ten;
 
         int digit_one = sum % 10;   //取個位數
         digit_ten = sum / 10;   //取進位十位數
 
-        thirdList->node = digit_one;    //將個位數記錄在第三個鏈結
-        thirdList->node = thirdList->node->next;    //移至下一個節點
-
-        firstList->node = firstList->node->next;    //移至下一個節點
-        secondList->node = secondList->node->next;  //移至下一個節點
+        thirdList->head = digit_one;    //將個位數結果記錄在第三個鏈結
+        thirdList->head = thirdList->head->next;    //移至下一個節點
+        firstList->head = firstList->head->next;    //移至下一個節點
+        secondList->head = secondList->head->next;  //移至下一個節點
     }
     DLL_reverse(*thirdList);    //將儲存結果的鏈結反轉為正
+
+    while(thirdList->head != NULL)
+    {
+        printf("%d", thirdList->head->data);
+        thirdList->head = thirdList->head->next;
+    }
+    return ;
 }
 #endif // DLL_H_INCLUDED
