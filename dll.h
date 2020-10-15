@@ -15,15 +15,15 @@ void DLL_init(dllNode_t * head) //建構一個空的 list
 
     head = (dllNode_t*)malloc(sizeof(dllNode_t));   //分配節點空間
 
-    head->next = NULL;
-    head->prev = NULL;
+    head->next = NULL;  //初始
+    head->prev = NULL;  //初始
 }
 
 int DLL_isEmpty(dllNode_t *head) // head 是否為空的list
 {
-    if(head == NULL)
+    if(head == NULL)    //如果head為NULL即為空的List
         return 1;
-    else
+    else    //否則不為空的List
         return 0;
 }
 
@@ -31,19 +31,19 @@ dllNode_t * DLL_next_node(dllNode_t * node); //(下一個節點)
 
 dllNode_t * DLL_prev_node(dllNode_t * node); //(上一個節點)
 
-unsigned int DLL_num_nodes(dllNode *head) //計算List中有幾個node
+unsigned int DLL_num_nodes(dllNode_t *head) //計算List中有幾個node
 {
     int countr=0; //紀錄節點數量
 
-    while(head->next != NULL)
+    while(head->next != NULL)   //尋找尾端
     {
-        head = head->next;
-        countr++;
+        head = head->next;  //將head指向下一個節點
+        countr++;   //紀錄節點數量
     }
-    return countr;
+    return countr;  //回傳節點數量
 }
 
-void DLL_add_before(dllNode_t * new_node, dllNode_t * head); //(將新node加入到head node的前一個)
+void DLL_add_before(dllNode_t * new_node, dllNode_t * head) //(將新node加入到head node的前一個)
 {
     new_node->next = head->next;    //將新節點的next指向原來的第一個節點
     if(head->next != NULL)  //當鏈結只有一個節點
@@ -63,8 +63,9 @@ void DLL_add_tail(dllNode_t * new_node, dllNode_t *head) //(將新node加入到head n
     new_node->prev = head;
 }
 
-void DLL_delete(dllNode_t * node); //(從node所在的 Linked List 中刪除此點)
+void DLL_delete(dllNode_t * node) //(從node所在的 Linked List 中刪除此點)
 {
+    dllNode_t * head;
     if(head != NULL)    //鏈結有節點可刪除
     {
         if(node == head)    //刪除第一個節點
@@ -84,69 +85,71 @@ void DLL_delete(dllNode_t * node); //(從node所在的 Linked List 中刪除此點)
     free(node);
 }
 
-void DLL_concate(dllNode_t *firstList, dllNode_t * secondList); //(將secondList 串在firstList之後)
-{
-    firstList->next = secondList->prev;
-    secondList->prev = firstList->next;
-}
-
-void DLL_reverse(dllNode_t *List)   //將鏈結頭尾指標互換
-{
-    dllNode_t *tail;
-    while(head->next != NULL)   //找到尾端
-    {
-        head = head->next;
-        if(head->next == NULL)
-        {
-            tail = head->next;
-            return;
-        }
-    }
-    dllNode_t *tmp; //交換頭跟尾的位子
-    tmp = head;
-    head = tail;
-    tail = tmp;
-}
-
-void DLL_add_two_numbers(dllNode_t *firstList, dllNode_t * secondList, dllNode_t *thirdList)
+dllNode_t DLL_concate(dllNode_t **firstList, dllNode_t * secondList) //(將secondList 串在firstList之後)
 {
     dllNode_t *head;
+    dllNode_t *L1 = firstList;
+    dllNode_t *L2 = secondList;
+    dllNode_t *L3;
 
-    //相加前先反轉
-    DLL_reverse(*firstList);
-    DLL_reverse(*secondList);
-    DLL_reverse(*thirdList);
-
-    int digit_ten = 0;
-
-    while(firstList->head != NULL || secondList->head != NULL || digit_ten != 0)
+    if(L1 == NULL)  //如果L1為空,L3即L2
+        L3 = L2;
+    else if(L2 == NULL) //如果L2為空,L3即L1
+        L3 = L1;
+    else
     {
-        int sum = 0;
-
-        if(firstList->head != NULL && secondList->head != NULL)
-            sum = firstList->head + firstList->head + digit_ten;    //兩鏈結相加並加上前一節點進位值
-        else if(firstList->head == NULL )
-            sum = secondList->head + digit_ten;
-        else if(secondList->head == NULL)
-            sum = secondList->head + digit_ten;
-        else
-            sum = digit_ten;
-
-        int digit_one = sum % 10;   //取個位數
-        digit_ten = sum / 10;   //取進位十位數
-
-        thirdList->head = digit_one;    //將個位數結果記錄在第三個鏈結
-        thirdList->head = thirdList->head->next;    //移至下一個節點
-        firstList->head = firstList->head->next;    //移至下一個節點
-        secondList->head = secondList->head->next;  //移至下一個節點
+        while(L1->next != NULL) //尋找L1尾端
+            L1 = L1->next;
+        L1->next = L2;  //將L2接在L1之後
+        L2->prev = L1;  //將L1接在L2之後
     }
-    DLL_reverse(*thirdList);    //將儲存結果的鏈結反轉為正
-
-    while(thirdList->head != NULL)
-    {
-        printf("%d", thirdList->head->data);
-        thirdList->head = thirdList->head->next;
-    }
-    return ;
 }
+
+struct dllNode_t *addTwoNumbers(dllNode_t *List1, dllNode_t * List2)
+{
+    int flag = 0, t = 0;
+    dllNode_t* result;
+    dllNode_t* head = result;
+    dllNode_t* add;
+
+    while(List1 || List2 || flag)
+    {
+        if(List1)
+            t = List1->data;    //如果List1非空將data存入t
+        else
+            t = 0;
+
+        if(List2)
+            t = List2->data;    //如果List2非空將data存入t
+        else
+            t = 0;
+
+        t += flag;  //flag表示進位
+
+        if(t > 9)   //判斷和是否大於10
+        {
+            add->data = t-10;   //減掉10之後為個位數存入data
+            flag = 1;   //進位1
+        }
+        else
+        {
+            add->data = t;
+            flag = 0;
+        }
+
+        add->next = NULL;   //接地
+
+        if(List1)
+            List1 = List1->next;    //如果List1非空尋找下一個節點
+        if(List2)
+            List2 = List2->next;    //如果List2非空尋找下一個節點
+
+        result->next = add; //指向下一個result
+        result = add;   //將結果存入result
+    }
+    result = head->next;
+    free(head); //歸還記憶體
+    printf("%p",&result);   //輸出結果
+}
+
 #endif // DLL_H_INCLUDED
