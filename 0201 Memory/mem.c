@@ -2,9 +2,9 @@
 
 void allocArray(int ***p, int m, int n)
 {
-    int **arr = (int **)malloc( (m+10) * sizeof(int *));
+    int **arr = (int **)malloc( (m+10) * sizeof(int *));    //列
     for (int i = 0; i < m; i++)
-        arr[i] = (int *)malloc( (n+10) * sizeof(int ));
+        arr[i] = (int *)malloc( (n+10) * sizeof(int ));     //行
     *p =arr;
 }
 
