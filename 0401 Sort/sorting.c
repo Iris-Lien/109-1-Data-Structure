@@ -51,7 +51,6 @@ void insertionSort(int *array, int n)
         array[j+1] = key;
     }
 }
-
 int main()
 {
     int array[SIZE];
