@@ -1,6 +1,3 @@
-#ifndef DLL_H_INCLUDED
-#define DLL_H_INCLUDED
-
 typedef struct node
 {
     int data;
@@ -10,11 +7,7 @@ typedef struct node
 
 void DLL_init(dllNode_t * head) //建構一個空的 list
 {
-    if(head == NULL)
-        return;
-
     head = (dllNode_t*)malloc(sizeof(dllNode_t));   //分配節點空間
-
     head->next = NULL;  //初始
     head->prev = NULL;  //初始
 }
@@ -43,13 +36,18 @@ unsigned int DLL_num_nodes(dllNode_t *head) //計算List中有幾個node
     return countr;  //回傳節點數量
 }
 
-void DLL_add_before(dllNode_t * new_node, dllNode_t * head) //(將新node加入到head node的前一個)
+void DLL_add_before(dllNode_t * new_node, dllNode_t * head) //(將新node加入到head的前一個)
 {
-    new_node->next = head->next;    //將新節點的next指向原來的第一個節點
-    if(head->next != NULL)  //當鏈結只有一個節點
-        head->next->prev = new_node;
-    head->next = new_node;  //頭節點head的next指向新節點
-    new_node->prev = head;  //新節點的prev指向頭節點head
+    if(head!=NULL)  //鏈結有節點
+    {
+        new_node->next = head ;    //將新節點指向head
+        head->prev = new_node;  //頭節點head的prev指向新節點
+        head = new_node;  //head為新節點
+    }
+    else    //鏈結沒有節點
+    {
+        head = new_node;    //將head指向新的節點
+    }
 }
 
 void DLL_add_tail(dllNode_t * new_node, dllNode_t *head) //(將新node加入到head node的後一個)
@@ -87,7 +85,8 @@ void DLL_delete(dllNode_t * node) //(從node所在的 Linked List 中刪除此點)
 
 dllNode_t DLL_concate(dllNode_t **firstList, dllNode_t * secondList) //(將secondList 串在firstList之後)
 {
-    dllNode_t *head;
+    dllNode_t *head1;   //紀錄L1的頭
+    dllNode_t *head2;   //紀錄L2的頭
     dllNode_t *L1 = firstList;
     dllNode_t *L2 = secondList;
     dllNode_t *L3;
@@ -98,17 +97,17 @@ dllNode_t DLL_concate(dllNode_t **firstList, dllNode_t * secondList) //(將second
         L3 = L1;
     else
     {
-        while(L1->next != NULL) //尋找L1尾端
-            L1 = L1->next;
-        L1->next = L2;  //將L2接在L1之後
-        L2->prev = L1;  //將L1接在L2之後
+        while(head1->next != NULL) //尋找L1尾端
+            head1 = head1->next;
+        head1->next = head2;  //將L2接在L1之後
+        head2->prev = head1;  //將L1接在L2之後
     }
 }
 
 struct dllNode_t *addTwoNumbers(dllNode_t *List1, dllNode_t * List2)
 {
     int flag = 0, t = 0;
-    dllNode_t* result;
+    dllNode_t* result=0;
     dllNode_t* head = result;
     dllNode_t* add;
 
@@ -151,5 +150,3 @@ struct dllNode_t *addTwoNumbers(dllNode_t *List1, dllNode_t * List2)
     free(head); //歸還記憶體
     printf("%p",&result);   //輸出結果
 }
-
-#endif // DLL_H_INCLUDED
