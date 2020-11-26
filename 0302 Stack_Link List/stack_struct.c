@@ -1,4 +1,5 @@
 #include<stdio.h>
+#include<stdlib.h>
 #include<string.h>
 
 struct Node
@@ -14,36 +15,32 @@ struct Stack
 
 int push(struct Stack *stack, int data)
 {
-    //Node *tmp;
-    //tmp = malloc(sizeof(Node));
-    if(stack->head == NULL)
+    struct Node *temp = malloc(sizeof(struct Node));
+    if(temp == NULL)
     {
         return -1;
     }
     else
     {
-        stack->head->data = data;   //make a new node
-        stack->head->next = stack->top;
-        stack->top = stack->head;   //tmp is top now
+        temp->data = data;
+        temp->next = stack->top;
+        stack->top = temp;
         return 1;
     }
 }
 
 int *pop(struct Stack *stack)
 {
-    //Node *tmp;
-    int tmp;
-    if(stack->head == NULL)  //check is empty or not
+    struct Node *temp;
+    temp = stack->top;
+    if(temp == NULL)  //check is empty or not
     {
         return NULL;
     }
     else
     {
-        stack->head = stack->top;
         stack->top = stack->top->next;
-        tmp = stack->head->data;
-        free(stack->head);
-        return &tmp;
+        return temp;
     }
 }
 
