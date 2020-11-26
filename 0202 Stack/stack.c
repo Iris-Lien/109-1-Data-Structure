@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #define SIZE 100
 
@@ -8,30 +9,49 @@ struct Stack
     int top;
 };
 
+int isempty(struct Stack *stack)
+{
+    if(stack->top == -1)
+        return 1;
+    return 0;
+}
+
+int isfull(struct Stack *stack)
+{
+    if(stack->top == SIZE-1)
+        return 1;
+    return 0;
+}
+
 int push(struct Stack *stack, int data)
 {
-    if(stack->top == stack->data[99]) // Checking Array is full or not.
+    data = (int)malloc(sizeof(int));
+
+    if(isfull(stack)==1) // Checking Array is full or not.
     {
         return -1;
     }
     else
     {
-        stack->top += 1; // top = top + 1
         stack->data[stack->top] = data;
+        stack->top++;
         return 1 ;
     }
 }
 
 int *pop(struct Stack *stack)
 {
-    if(stack->top == 0) // Checking  is empty or not.
+    int temp;
+    temp = stack->top;
+    if(isempty(stack)==1) // Checking  is empty or not.
     {
         return NULL;
     }
     else
     {
-        stack->top -= 1; //	top = top - 1
-        return &stack->data[stack->top] ;
+        //temp = stack->data[stack->top];
+        stack->top--;
+        return &(stack->data[temp]);
     }
 }
 
