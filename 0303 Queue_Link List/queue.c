@@ -1,4 +1,5 @@
 #include<stdio.h>
+#include<stdlib.h>
 #include<string.h>
 
 struct Node
@@ -14,30 +15,34 @@ struct Queue
 
 int enqueue(struct Queue *queue, int data)
 {
-    if(queue->bot->next == NULL)  //if queue is full
+    struct Node * in = (struct Node *)malloc(sizeof(struct Node));
+    if(in == NULL)
     {
         return -1;
     }
-    queue->bot->next->data = data;
-    queue->bot->next->next = NULL;
-    queue->bot = queue->bot->next;
-    return 1;
+    else
+    {
+        if(queue->top == NULL && queue->bot == NULL)
+            queue->top = queue->bot = in;
+        in->data = data;
+        queue->bot->next = in;
+        queue->bot = in;
+        return 1;
+    }
 }
 
 int *dequeue(struct Queue *queue)
 {
-    int tmp;
-    if(queue->top == NULL)  //if queue is empty
+    struct Node *out;
+    out = queue->top;
+    if(out == NULL)  //if queue is empty
     {
         return NULL;
     }
     else
     {
-        queue->top->next = queue->top;
         queue->top = queue->top->next;
-        tmp = queue->top->data;
-        free(queue->top);
-        return  tmp;
+        return out;
     }
 }
 
