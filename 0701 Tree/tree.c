@@ -48,26 +48,23 @@ void postorder(struct Node *root)   //¥ª¤l¾ğ->¥k¤l¾ğ->root
     }
 }
 
+int height(struct Node *root)
+{
+    if(root!=NULL)
+    {
+        int left_h = height(root->left);
+        int right_h = height(root->right);
+
+        if(left_h > right_h)
+            return left_h+1;
+        else
+            return right_h+1;
+    }
+}
+
 void levelorder(struct Node *root)  //¼h§Ç¹M¾ú
 {
-    if(root == NULL)
-        return;
-    struct Node *queue[20];
-    int head = 0;
-    int tail = 0;
-    queue[tail++] = root;
 
-    while(head != tail)
-    {
-        root = queue[head];
-
-        printf("%d",(root->data));
-        if(queue[head]->left != NULL)
-            queue[tail++] = queue[head]->left;
-        if(queue[head]->right != NULL)
-            queue[tail++] = queue[head]->right;
-        head++;
-    }
 }
 
 int main()
