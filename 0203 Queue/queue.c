@@ -11,27 +11,24 @@ struct Queue
 
 int enqueue(struct Queue *queue, int data)
 {
-    if (queue->top == queue->data[99])/*If queue is full */
+    struct Queue *temp = malloc(sizeof(struct Queue));
+
+    queue->bot = (queue->bot+1)%SIZE;
+    if (temp == queue->data[SIZE-1])/*If queue is full */
         return -1;
-    else
-    {
-      queue->bot++;
-      queue->data[queue->top] = data;
-    }
+    queue->bot++;
+    queue->data[queue->bot] = data;
     return 1;
 }
 
 int *dequeue(struct Queue *queue)
 {
     if (queue->top == queue->bot) /*If queue is empty*/
-    {
-      return NULL;
-    }
-    else
-    {
-      queue->top++;
-      return  &queue->data[queue->top];
-    }
+        return NULL;
+    queue->top = (queue->top+1)%SIZE;
+    queue->top++;
+    return  &queue->data[queue->top];
+
 }
 
 int main()

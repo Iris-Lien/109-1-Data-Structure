@@ -15,14 +15,12 @@ struct Queue
 
 int enqueue(struct Queue *queue, int data)
 {
-    struct Node * in = (struct Node *)malloc(sizeof(struct Node));
+   struct Node * in = (struct Node *)malloc(sizeof(struct Node));
     if(in == NULL)
-    {
         return -1;
-    }
     else
     {
-        if(queue->top == NULL && queue->bot == NULL)
+        if(queue->bot == NULL)
             queue->top = queue->bot = in;
         in->data = data;
         queue->bot->next = in;
@@ -33,16 +31,14 @@ int enqueue(struct Queue *queue, int data)
 
 int *dequeue(struct Queue *queue)
 {
-    struct Node *out;
-    out = queue->top;
-    if(out == NULL)  //if queue is empty
-    {
+    if(queue->top == NULL)
         return NULL;
-    }
     else
     {
+        struct Node *temp = (struct Node *)malloc(sizeof(struct Node));
+		temp = queue->top;
         queue->top = queue->top->next;
-        return out;
+        return &(temp->data);
     }
 }
 

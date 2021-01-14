@@ -8,50 +8,34 @@ struct Stack
     int data[SIZE];
     int top;
 };
-
-int isempty(struct Stack *stack)
-{
-    if(stack->top == -1)
-        return 1;
-    return 0;
-}
-
-int isfull(struct Stack *stack)
-{
-    if(stack->top == SIZE-1)
-        return 1;
-    return 0;
-}
-
 int push(struct Stack *stack, int data)
 {
-    data = (int)malloc(sizeof(int));
+    struct Stack *temp = malloc(sizeof(struct Stack));
 
-    if(isfull(stack)==1) // Checking Array is full or not.
+    if(temp == stack->data[SIZE-1]) // Checking Array is full or not.
     {
         return -1;
     }
     else
     {
+        stack->top += 1; // top = top + 1
         stack->data[stack->top] = data;
-        stack->top++;
         return 1 ;
     }
 }
 
 int *pop(struct Stack *stack)
 {
-    int temp;
-    temp = stack->top;
-    if(isempty(stack)==1) // Checking  is empty or not.
+    //struct Stack *temp;
+    int temp = stack->top;
+    if(stack->top == 0) // Checking  is empty or not.
     {
         return NULL;
     }
     else
     {
-        //temp = stack->data[stack->top];
-        stack->top--;
-        return &(stack->data[temp]);
+        stack->top -= 1; //	top = top - 1
+        return &stack->data[temp] ;
     }
 }
 

@@ -31,8 +31,8 @@ int push(struct Stack *stack, int data)
 
 int *pop(struct Stack *stack)
 {
-    struct Node *temp;
-    temp = stack->top;
+    //struct Node *temp;
+    int temp = stack->top;
     if(temp == NULL)  //check is empty or not
     {
         return NULL;
